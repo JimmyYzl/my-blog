@@ -13,47 +13,67 @@
       {{curName}}
     </header>
     <article>
-      <div class="main">
-        <el-card class="box-card" v-for="(item, index) in dataList" :key="index">
+      <ul class="main">
+        <li class="box-card" v-for="(item, index) in dataList" :key="index">
           <div class="card-top">
-            <img :src="item.image" :alt="item.title">
             <div class="card-left">
-              <p class="card-title">{{item.title}}</p>
+              <h2 class="card-title">{{item.title}}</h2>
+              <p class="card-des">
+                {{item.description}}
+              </p>
               <div class="card-tags">
-                <el-tag type="info" v-for="item in item.tags" :key="item">{{item}}</el-tag>
+                <span class="card-tag" v-for="item in item.tags" :key="item">{{item}}</span>
               </div>
             </div>
+            <div class="card-right" :style="{backgroundImage: 'url('+item.image+')', backgroundSize: 'cover'}"></div>
           </div>
           <div class="card-bottom">
-            {{item.description}}
+            {{item.date}}
+            <span class="goPage">查看更多>></span>
           </div>
-        </el-card>
-      </div>
+        </li>
+      </ul>
     </article>
   </div>
 </template>
 
 <script>
+import moment from 'moment';
 export default {
   data() {
     return {
       selectValue: "",
       curName: "主页",
-      dataList: [
+      oldList: [
         {
-          image: "https://www.google.co.jp/search?q=%E5%9B%BE%E7%89%87&source=lnms&tbm=isch&sa=X&ved=0ahUKEwiIioPl263bAhXEWrwKHQeDBeIQ_AUICigB&biw=1920&bih=938#",
+          image: "http://oxnqkx7p0.bkt.clouddn.com/sky-img.jpg",
           title: "第一篇文章",
           description: "这是第一个关于文章的描述，我也不知道写什么好。些什么好，些什么好，些什么好，些什么好，些什么好，些什么好，些什么好。",
-          tags: ['学习', '技术', '生活', '记录']
+          tags: ['学习', '技术', '生活', '记录'],
+          date: 1527737350037
         },
         {
-          image: "https://www.google.co.jp/search?q=%E5%9B%BE%E7%89%87&source=lnms&tbm=isch&sa=X&ved=0ahUKEwiIioPl263bAhXEWrwKHQeDBeIQ_AUICigB&biw=1920&bih=938#",
+          image: "http://oxnqkx7p0.bkt.clouddn.com/IMG_20170603_095735.jpg",
           title: "第一篇文章",
           description: "这是第一个关于文章的描述，我也不知道写什么好。些什么好，些什么好，些什么好，些什么好，些什么好，些什么好，些什么好。这是第一个关于文章的描述，我也不知道写什么好。些什么好，些什么好，些什么好，些什么好，些什么好，些什么好，些什么好。这是第一个关于文章的描述，我也不知道写什么好。些什么好，些什么好，些什么好，些什么好，些什么好，些什么好，些什么好。",
-          tags: ['学习', '技术', '生活', '记录']
+          tags: ['学习', '技术', '美的鉴赏和凭借', '记录'],
+          date: 1527737340000
         },
       ]
     };
+  },
+
+  computed: {
+    dataList () {
+      this.oldList.forEach(i => {
+        i.date = moment(i.date).format('YYYY-MM-DD HH:mm:ss')
+      });
+      return this.oldList;
+    }
+  },
+
+  created () {
+
   }
 };
 </script>
@@ -146,24 +166,88 @@ export default {
   article {
     width: 100%;
     background: #fff;
+    min-height: 1000px;
+    padding-top: 30px;
     .main{
       width: 1200px;
       margin: 0 auto;
       .box-card{
         margin-top: 30px;
         border-radius: 30px;
-        height: 200px;
+        padding: 40px;
+        box-shadow: 0 2px 12px 0 rgba(0,0,0,.1);
         .card-top{
-          height: 90px;
-          img{
-            width: 90px;
-            height: 90px;
-            display: block;
-            float: left;
-          }
+          display: flex;
+          margin-bottom: 20px;
           .card-left{
+            flex: 2;
+            .card-title{
+              font-size: 26px;
+              height: 35px;
+              line-height: 35px;
+              margin-bottom: 10px;
+              color: #333;
+            }
+            .card-des{
+              color: #555;
+              height: 90px;
+              line-height: 30px;
+              margin-bottom: 10px;
+              overflow : hidden;
+              text-overflow: ellipsis;
+              display: -webkit-box;
+              -webkit-line-clamp: 3;
+              -webkit-box-orient: vertical;
+            }
+            .card-tags{
+              height: 40px;
+              margin-bottom: 10px;
+              .card-tag{
+                margin-left: 30px;
+                padding: 10px 20px;
+                background: #58a732;
+                color: #fff;
+                text-align: center;
+                height: 40px;
+                line-height: 40px;
+                font-size: 14px;
+                border-radius: 20px;
+                cursor: pointer;
+                &:hover{
+                  opacity: 0.7;
+                }
+              }
+            }
+          }
+          .card-right{
+            flex: 1;
             margin-left: 20px;
-            float: left;
+            width: 34%;
+            padding: 20px;
+            background-position: center;
+            background-repeat: no-repeat;
+          }
+        }
+        .card-bottom{
+          width: 100%;
+          height: 50px;
+          line-height: 50px;
+          padding-left: 30px;
+          color: #888;
+          text-align: left;
+          position: relative;
+          .goPage{
+            cursor: pointer;
+            font-size: 20px;
+            position: absolute;
+            right: 20px;
+            top: 0;
+            height: 50px;
+            line-height: 50px;
+            padding: 0 20px;
+            &:hover{
+              color: #3a8ee6;
+            }
           }
         }
       }
