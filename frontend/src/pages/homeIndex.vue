@@ -39,27 +39,13 @@
 
 <script>
 import moment from 'moment';
+import Api from '../api/index.js'
 export default {
   data() {
     return {
       selectValue: "",
       curName: "主页",
-      oldList: [
-        {
-          image: "http://oxnqkx7p0.bkt.clouddn.com/sky-img.jpg",
-          title: "第一篇文章",
-          description: "这是第一个关于文章的描述，我也不知道写什么好。些什么好，些什么好，些什么好，些什么好，些什么好，些什么好，些什么好。",
-          tags: ['学习', '技术', '生活', '记录'],
-          date: 1527737350037
-        },
-        {
-          image: "http://oxnqkx7p0.bkt.clouddn.com/IMG_20170603_095735.jpg",
-          title: "第一篇文章",
-          description: "这是第一个关于文章的描述，我也不知道写什么好。些什么好，些什么好，些什么好，些什么好，些什么好，些什么好，些什么好。这是第一个关于文章的描述，我也不知道写什么好。些什么好，些什么好，些什么好，些什么好，些什么好，些什么好，些什么好。这是第一个关于文章的描述，我也不知道写什么好。些什么好，些什么好，些什么好，些什么好，些什么好，些什么好，些什么好。",
-          tags: ['学习', '技术', '美的鉴赏和凭借', '记录'],
-          date: 1527737340000
-        },
-      ]
+      oldList: []
     };
   },
 
@@ -73,7 +59,9 @@ export default {
   },
 
   created () {
-
+    Api.getlist({},(data) => {
+      this.oldList = data.data.data;
+    })
   }
 };
 </script>
