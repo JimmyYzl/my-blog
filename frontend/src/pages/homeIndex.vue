@@ -29,10 +29,19 @@
           </div>
           <div class="card-bottom">
             {{item.date}}
-            <span class="goPage">查看更多>></span>
+            <span class="goPage" @click="$router.push({path: '/article', query: {id: item.id}})">查看更多>></span>
           </div>
         </li>
       </ul>
+      <div class="nextpage">
+        <el-pagination
+          @current-change="handleCurrentChange"
+          :current-page.sync="currentPage"
+          :page-size="10"
+          layout="prev, pager, next, jumper"
+          :total="total">
+        </el-pagination>
+      </div>
     </article>
   </div>
 </template>
@@ -45,7 +54,9 @@ export default {
     return {
       selectValue: "",
       curName: "主页",
-      oldList: []
+      oldList: [],
+      currentPage: 1,
+      total: null
     };
   },
 
@@ -59,9 +70,24 @@ export default {
   },
 
   created () {
-    Api.getlist({},(data) => {
-      this.oldList = data.data.data;
-    })
+    this.getData();
+  },
+
+  methods: {
+    handleCurrentChange(val) {
+      this.getData(val);
+    },
+
+    getData(page) {
+      let data = {};
+      if(page) {
+        data.page = this.currentPage;
+      }
+      Api.getlist(data,(data) => {
+        this.oldList = data.data.data;
+        this.total = data.data.total;
+      })
+    }
   }
 };
 </script>
@@ -239,6 +265,14 @@ export default {
           }
         }
       }
+    }
+    .nextpage{
+      width: 1200px;
+      margin: 0 auto;
+      padding-top: 50px;
+      padding-right: 50px;
+      text-align: right;
+      height: 200px;
     }
   }
 }

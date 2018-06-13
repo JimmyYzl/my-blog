@@ -10,9 +10,13 @@ api.getlist = (data, cd) => {
     params: data,
    })
   .then(cd)
-  .catch((err) => {
-    window.location.hash = '#/'; 
-  });
+}
+
+api.getarticle = (data, cd) => {
+  axios.get('/api/front_article', {
+    params: data
+  })
+  .then(cd)
 }
 
 export default api;
