@@ -19,4 +19,9 @@ api.getarticle = (data, cd) => {
   .then(cd)
 }
 
+api.gettags = (data, cd) => {
+  axios.get('/api/front_tags')
+  .then(cd)
+}
+
 export default api;

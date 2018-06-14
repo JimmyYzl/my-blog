@@ -2,13 +2,14 @@
   <div id="home-index">
     <header>
       <nav class="header-nav">
+        <div class="logo"></div>
         <div class="select-box">
           <el-input placeholder="搜索内容" v-model="selectValue" class="input-with-select">
-            <el-button slot="append" icon="el-icon-search"></el-button>
+            <el-button slot="append" icon="el-icon-search" @click="getData(1,selectValue)"></el-button>
           </el-input>
         </div>
         <div class="nav-btn">主页</div>
-        <div class="nav-btn">标签</div>
+        <!-- <div class="nav-btn" @click="$router.push('/tags')">标签</div> -->
       </nav>
       {{curName}}
     </header>
@@ -78,10 +79,13 @@ export default {
       this.getData(val);
     },
 
-    getData(page) {
+    getData(page, val) {
       let data = {};
       if(page) {
         data.page = this.currentPage;
+      }
+      if(val) {
+        data.q = val;
       }
       Api.getlist(data,(data) => {
         this.oldList = data.data.data;
@@ -138,6 +142,17 @@ export default {
       display: flex;
       justify-content: flex-end;
       padding-right: 100px;
+      .logo{
+        position: absolute;
+        left: 100px;
+        top: 15px;
+        width: 190px;
+        height: 70px;
+        background-image: url('../assets/images/logo.png');
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-position: center;
+      }
       .select-box {
         height: 100px;
         line-height: 100px;
